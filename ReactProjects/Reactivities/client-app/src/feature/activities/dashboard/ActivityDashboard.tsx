@@ -3,7 +3,7 @@ import ActivityList from "./ActivityList.tsx";
 import {useStore} from "../../../app/stores/store.ts";
 import {observer} from "mobx-react-lite";
 import {useEffect} from "react";
-import LoadingComponents from "../../../app/layout/LoadingComponents.tsx";
+import LoadingComponent from "../../../app/layout/LoadingComponent.tsx";
 import ActivityFilters from "./ActivityFilters.tsx";
 
 export default observer(function ActivityDashboard() {
@@ -14,7 +14,7 @@ export default observer(function ActivityDashboard() {
         if (activityRegistry.size <= 1) loadActivities();
     }, [activityRegistry.size, loadActivities])
 
-    if (activityStore.loadingInitial) return <LoadingComponents content='Loading app...' />
+    if (activityStore.loadingInitial) return <LoadingComponent content='Loading activities...' />
 
     return (
         <Grid>

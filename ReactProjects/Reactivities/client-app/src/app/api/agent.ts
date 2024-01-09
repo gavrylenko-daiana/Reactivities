@@ -3,6 +3,7 @@ import {Activity} from "../models/activity.ts";
 import {toast} from "react-toastify";
 import {store} from "../stores/store.ts";
 import {router} from "../router/Routes.tsx";
+import {User, UserFormValues} from "../models/user.ts";
 
 const sleep = (delay: number) => {
     return new Promise((resolve) => {
@@ -11,6 +12,14 @@ const sleep = (delay: number) => {
 }
 
 axios.defaults.baseURL = "http://localhost:5001/api";
+
+const responseBody = <T>(response: AxiosResponse<T>) => response.data;
+
+axios.interceptors.request.use(config => {
+    const token = store.commonStore.token;
+    if (token) config.headers.Authorization = `Bearer ${token}`;
+    return config;
+})
 
 axios.interceptors.response.use(async res => {
     await sleep(1000);
@@ -51,8 +60,6 @@ axios.interceptors.response.use(async res => {
     return Promise.reject(error);
 })
 
-const responseBody = <T>(response: AxiosResponse<T>) => response.data;
-
 const request = {
     get: <T>(url: string) => axios.get<T>(url).then(responseBody),
     post: <T>(url: string, body: {}) => axios.post<T>(url, body).then(responseBody),
@@ -68,8 +75,15 @@ const Activities = {
     delete: (id: string) => axios.delete(`/activities/${id}`),
 }
 
+const Account = {
+    current: () => request.get<User>('/account'),
+    login: (user: UserFormValues) => request.post<User>('/account/login', user),
+    register: (user: UserFormValues) => request.post<User>('/account/register', user)
+}
+
 const agent = {
-    Activities
+    Activities,
+    Account
 }
 
 export default agent;
