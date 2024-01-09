@@ -1,24 +1,24 @@
-﻿import {Grid} from "semantic-ui-react";
-import {useStore} from "../../../app/stores/store.ts";
-import LoadingComponent from "../../../app/layout/LoadingComponent.tsx";
-import {observer} from "mobx-react-lite";
-import {useParams} from "react-router-dom";
-import {useEffect} from "react";
-import ActivityDetailedSidebar from "./ActivityDetailedSidebar.tsx";
-import ActivityDetailedChat from "./ActivityDetailedChat.tsx";
-import ActivityDetailedInfo from "./ActivityDetailedInfo.tsx";
-import ActivityDetailedHeader from "./ActivityDetailedHeader.tsx";
+﻿import { Grid } from "semantic-ui-react";
+import { useStore } from '../../../app/stores/store';
+import { observer } from 'mobx-react-lite';
+import LoadingComponent from '../../../app/layout/LoadingComponent';
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import ActivityDetailedChat from "./ActivityDetailedChat";
+import ActivityDetailedHeader from "./ActivityDetailedHeader";
+import ActivityDetailedInfo from "./ActivityDetailedInfo";
+import ActivityDetailedSidebar from "./ActivityDetailedSidebar";
 
 export default observer(function ActivityDetails() {
-    const {activityStore} = useStore();
-    const {selectedActivity: activity, loadActivity, loadingInitial} = activityStore;
-    const {id} = useParams();
+    const { activityStore } = useStore();
+    const { selectedActivity: activity, loadActivity, loadingInitial } = activityStore;
+    const { id } = useParams();
 
     useEffect(() => {
         if (id) loadActivity(id);
-    }, [id, loadActivity])
+    }, [id, loadActivity]);
 
-    if (loadingInitial || !activity) return <LoadingComponent />;
+    if (loadingInitial || !activity) return <LoadingComponent />
 
     return (
         <Grid>
@@ -28,7 +28,7 @@ export default observer(function ActivityDetails() {
                 <ActivityDetailedChat />
             </Grid.Column>
             <Grid.Column width='6'>
-                <ActivityDetailedSidebar />
+                <ActivityDetailedSidebar activity={activity}/>
             </Grid.Column>
         </Grid>
     )
