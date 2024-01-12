@@ -58,7 +58,7 @@ export default class ProfileStore {
         }
     }
 
-    uploadPhoto = async (file: any) => {
+    uploadPhoto = async (file: Blob) => {
         this.uploading = true;
         try {
             const response = await agent.Profiles.uploadPhoto(file);

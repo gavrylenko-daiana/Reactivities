@@ -15,7 +15,7 @@ interface Props {
     const [addPhotoMode, setAddPhotoMode] = useState(false);
     const [target, setTarget] = useState('');
 
-    function handlePhotoUpload(file: any) {
+    function handlePhotoUpload(file: Blob) {
         uploadPhoto(file).then(() => setAddPhotoMode(false));
     }
 
@@ -28,7 +28,6 @@ interface Props {
         setTarget(e.currentTarget.name);
         deletePhoto(photo);
     }
-
 
     return (
         <Tab.Pane>
